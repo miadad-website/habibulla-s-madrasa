@@ -1,311 +1,665 @@
 <!DOCTYPE html>
-<html lang="bn" dir="ltr">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>  আদ দীন একাডেমি - অনলাইন কুরআন শিক্ষা </title>
+    <title>আদ-দ্বীন একাডেমি | Ad-Din Academy</title>
+    
+    <!-- Google Fonts: Hind Siliguri (Bengali) & Inter (English) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
+    
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        emeraldCustom: '#065f46',
-                        goldCustom: '#d97706',
-                    }
-                }
-            }
-        }
-    </script>
+
     <style>
-        .page-section { display: none; }
-        .page-section.active { display: block; }
+        body {
+            font-family: 'Hind Siliguri', 'Inter', sans-serif;
+        }
+        .page-section {
+            display: block;
+        }
+        .page-section.hidden {
+            display: none;
+        }
+        .lang-en {
+            display: none;
+        }
+        body.en-mode .lang-bn {
+            display: none !important;
+        }
+        body.en-mode .lang-en {
+            display: inline-block !important;
+        }
+        body.en-mode div.lang-en, body.en-mode section.lang-en, body.en-mode p.lang-en, body.en-mode h1.lang-en, body.en-mode h2.lang-en, body.en-mode h3.lang-en, body.en-mode span.lang-en {
+            display: block !important;
+        }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen">
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
 
-    <!-- Header / Navigation -->
-    <header class="bg-emeraldCustom text-white shadow-md sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+    <!-- Header / Navbar -->
+    <header class="bg-emerald-800 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center">
             <!-- Logo -->
-            <div class="flex items-center space-x-2 cursor-pointer" onclick="switchPage('home')">
-                <i class="fa-solid fa-quran text-goldCustom text-2xl"></i>
-                <span class="text-xl font-bold tracking-wide" id="logoText">Al-Qur'an Academy</span>
+            <a href="javascript:void(0)" onclick="navigateTo('home')" class="flex items-center space-x-2 text-2xl font-bold">
+                <i class="fa-solid fa-book-quran text-amber-400"></i>
+                <span class="lang-bn">আদ-দ্বীন একাডেমি</span>
+                <span class="lang-en">Ad-Din Academy</span>
+            </a>
+
+            <div class="flex items-center space-x-4 md:order-last">
+                <!-- Language Toggle Button -->
+                <button id="lang-btn" onclick="toggleLanguage()" class="bg-amber-400 hover:bg-amber-500 text-emerald-950 font-bold px-3 py-1 rounded-lg text-sm transition">
+                    English
+                </button>
+
+                <!-- Mobile Menu Toggle Button -->
+                <button id="menu-toggle" class="md:hidden text-2xl focus:outline-none">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
             </div>
 
             <!-- Navigation Links -->
-            <nav class="hidden md:flex space-x-6 text-sm font-medium">
-                <button onclick="switchPage('home')" class="hover:text-goldCustom transition" data-i18n="nav_home">হোম</button>
-                <button onclick="switchPage('courses')" class="hover:text-goldCustom transition" data-i18n="nav_courses">কোর্স ও ফি</button>
-                <button onclick="switchPage('about')" class="hover:text-goldCustom transition" data-i18n="nav_about">আমাদের সম্পর্কে</button>
-                <button onclick="switchPage('contact')" class="hover:text-goldCustom transition" data-i18n="nav_contact">যোগাযোগ</button>
+            <nav id="nav-menu" class="w-full md:w-auto hidden md:flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6 mt-4 md:mt-0 font-medium text-lg">
+                <a href="javascript:void(0)" onclick="navigateTo('home')" class="hover:text-amber-300 transition">
+                    <span class="lang-bn">হোম</span><span class="lang-en">Home</span>
+                </a>
+                <a href="javascript:void(0)" onclick="navigateTo('about')" class="hover:text-amber-300 transition">
+                    <span class="lang-bn">আমাদের সম্পর্কে</span><span class="lang-en">About Us</span>
+                </a>
+                <a href="javascript:void(0)" onclick="navigateTo('for-whom')" class="hover:text-amber-300 transition">
+                    <span class="lang-bn">যাদের জন্য</span><span class="lang-en">For Whom</span>
+                </a>
+                <a href="javascript:void(0)" onclick="navigateTo('how-it-works')" class="hover:text-amber-300 transition">
+                    <span class="lang-bn">পদ্ধতি</span><span class="lang-en">How It Works</span>
+                </a>
+                <a href="javascript:void(0)" onclick="navigateTo('courses')" class="hover:text-amber-300 transition">
+                    <span class="lang-bn">কোর্সসমূহ</span><span class="lang-en">Our Courses</span>
+                </a>
+                <a href="javascript:void(0)" onclick="navigateTo('teachers')" class="hover:text-amber-300 transition">
+                    <span class="lang-bn">শিক্ষকবৃন্দ</span><span class="lang-en">Our Teachers</span>
+                </a>
+                <a href="javascript:void(0)" onclick="navigateTo('why-us')" class="hover:text-amber-300 transition">
+                    <span class="lang-bn">কেন আমরা</span><span class="lang-en">Why Choose Us</span>
+                </a>
+                <a href="javascript:void(0)" onclick="navigateTo('contact')" class="hover:text-amber-300 transition">
+                    <span class="lang-bn">যোগাযোগ</span><span class="lang-en">Contact Us</span>
+                </a>
             </nav>
-
-            <!-- Language Switcher & Action -->
-            <div class="flex items-center space-x-3">
-                <button onclick="toggleLanguage()" class="bg-emerald-800 hover:bg-emerald-900 px-3 py-1 rounded text-xs font-semibold tracking-wider uppercase border border-emerald-600 transition">
-                    <i class="fa-solid fa-globe mr-1"></i><span id="langBtnText">EN</span>
-                </button>
-                <button onclick="switchPage('contact')" class="bg-goldCustom hover:bg-amber-600 text-white text-xs font-bold px-4 py-2 rounded shadow transition" data-i18n="btn_free_trial">
-                    ফ্রি ট্রায়াল
-                </button>
-            </div>
         </div>
     </header>
 
-    <!-- Main Content Area -->
+    <!-- Main Content Container -->
     <main class="flex-grow">
 
-        <!-- 1. HOME PAGE -->
-        <section id="home" class="page-section active">
+        <!-- ==================== 1. HOME SECTION ==================== -->
+        <section id="home" class="page-section">
             <!-- Hero Banner -->
-            <div class="bg-gradient-to-r from-emerald-900 to-emerald-700 text-white py-16 px-4 text-center">
-                <div class="max-w-3xl mx-auto">
-                    <h1 class="text-3xl md:text-5xl font-bold mb-4" data-i18n="hero_title">ঘরে বসেই শিখুন সহীহ কুরআন তিলাওয়াত</h1>
-                    <p class="text-emerald-100 text-base md:text-lg mb-8" data-i18n="hero_subtitle">অভিজ্ঞ হাফেজ ও আলেম শিক্ষক দ্বারা পরিচালিত ১-টু-১ অনলাইন কুরআন শিক্ষা প্ল্যাটফর্ম।</p>
-                    <button onclick="switchPage('contact')" class="bg-goldCustom hover:bg-amber-600 text-white text-base font-bold px-8 py-3 rounded-full shadow-lg transition" data-i18n="btn_start_today">
-                        আজই ফ্রি ট্রায়াল বুক করুন
-                    </button>
+            <div class="bg-gradient-to-r from-emerald-800 to-teal-700 text-white py-16 px-4">
+                <div class="max-w-4xl mx-auto text-center space-y-6">
+                    <span class="bg-amber-400 text-emerald-950 font-semibold px-4 py-1.5 rounded-full text-sm inline-block shadow">
+                        <span class="lang-bn">একটি আধুনিক অনলাইন কুরআন ও ইসলামিক শিক্ষা প্ল্যাটফর্ম</span>
+                        <span class="lang-en">A Modern Online Quran & Islamic Education Platform</span>
+                    </span>
+                    <h1 class="text-3xl md:text-5xl font-bold leading-tight">
+                        <span class="lang-bn">আদ-দ্বীন একাডেমি - শিশু থেকে প্রাপ্তবয়স্ক সকলের জন্য</span>
+                        <span class="lang-en">Ad-Din Academy - For Children to Adults</span>
+                    </h1>
+                    <p class="text-lg md:text-xl text-emerald-100 font-light leading-relaxed">
+                        <span class="lang-bn">ওয়ান-টু-ওয়ান পদ্ধতিতে যোগ্য শিক্ষকমণ্ডলীর তত্ত্বাবধানে কুরআন, আরবি ভাষা ও ইসলামিক শিক্ষা গ্রহণ করুন। আল-আযহার বিশ্ববিদ্যালয়ে অধ্যয়নরত শিক্ষক, নারীদের জন্য হাফেজা শিক্ষিকা এবং শিশুদের জন্য নিজস্ব কারিকুলামে এক বছর মেয়াদি চার সেমিস্টারের বিশেষ কোর্স—সবই আপনার সুবিধামতো অনলাইনে।</span>
+                        <span class="lang-en">Learn Quran, Arabic language, and Islamic studies under qualified teachers through a one-to-one methodology. Featuring teachers studying at Al-Azhar University, female Hafeza teachers for women, and a specialized one-year, 4-semester curriculum for children—all online at your convenience.</span>
+                    </p>
+                    <div class="pt-4">
+                        <a href="javascript:void(0)" onclick="navigateTo('contact')" class="inline-block bg-amber-400 hover:bg-amber-500 text-emerald-950 font-bold text-lg px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
+                            <i class="fa-solid fa-calendar-check mr-2"></i> 
+                            <span class="lang-bn">ফ্রি ট্রায়াল ক্লাস বুক করুন</span>
+                            <span class="lang-en">Book a Free Trial Class</span>
+                        </a>
+                    </div>
                 </div>
             </div>
 
-            <!-- Features -->
-            <div class="max-w-7xl mx-auto px-4 py-12">
-                <h2 class="text-2xl md:text-3xl font-bold text-center mb-8" data-i18n="why_choose_us">কেন আমাদের বেছে নেবেন?</h2>
+            <!-- 5 Core Features Section -->
+            <div class="max-w-7xl mx-auto px-4 py-16">
+                <h2 class="text-3xl font-bold text-center text-emerald-900 mb-12">
+                    <span class="lang-bn">আমাদের মূল সুবিধাসমূহ</span>
+                    <span class="lang-en">Our Key Features</span>
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                    
+                    <!-- Feature 1 -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 text-center space-y-3 hover:shadow-md transition">
+                        <div class="w-14 h-14 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center text-2xl mx-auto">
+                            <i class="fa-solid fa-user-graduate"></i>
+                        </div>
+                        <h3 class="font-bold text-xl text-slate-800">
+                            <span class="lang-bn">১. ওয়ান-টু-ওয়ান ক্লাস</span>
+                            <span class="lang-en">1. One-to-One Classes</span>
+                        </h3>
+                        <p class="text-slate-600 text-sm">
+                            <span class="lang-bn">প্রতিটি শিক্ষার্থীর জন্য একজন শিক্ষক/শিক্ষিকা, ব্যক্তিগত মনোযোগ ও প্রয়োজন অনুযায়ী পাঠদান।</span>
+                            <span class="lang-en">One teacher per student, personal attention, and customized lessons.</span>
+                        </p>
+                    </div>
+
+                    <!-- Feature 2 -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 text-center space-y-3 hover:shadow-md transition">
+                        <div class="w-14 h-14 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center text-2xl mx-auto">
+                            <i class="fa-solid fa-building-columns"></i>
+                        </div>
+                        <h3 class="font-bold text-xl text-slate-800">
+                            <span class="lang-bn">২. যোগ্য শিক্ষকমণ্ডলী</span>
+                            <span class="lang-en">2. Qualified Faculty</span>
+                        </h3>
+                        <p class="text-slate-600 text-sm">
+                            <span class="lang-bn">আল-আযহার বিশ্ববিদ্যালয়ে অধ্যয়নরত শিক্ষকসহ যোগ্য ও অভিজ্ঞ শিক্ষকদের তত্ত্বাবধানে শিক্ষা।</span>
+                            <span class="lang-en">Education under experienced teachers including students studying at Al-Azhar University.</span>
+                        </p>
+                    </div>
+
+                    <!-- Feature 3 -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 text-center space-y-3 hover:shadow-md transition">
+                        <div class="w-14 h-14 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center text-2xl mx-auto">
+                            <i class="fa-solid fa-child-reaching"></i>
+                        </div>
+                        <h3 class="font-bold text-xl text-slate-800">
+                            <span class="lang-bn">৩. শিশুদের নিজস্ব কারিকুলাম</span>
+                            <span class="lang-en">3. Custom Kids Curriculum</span>
+                        </h3>
+                        <p class="text-slate-600 text-sm">
+                            <span class="lang-bn">এক বছর মেয়াদি চার সেমিস্টারে পরিকল্পিত ইসলামিক শিক্ষা কার্যক্রম।</span>
+                            <span class="lang-en">Planned Islamic education program structured over 4 semesters in one year.</span>
+                        </p>
+                    </div>
+
+                    <!-- Feature 4 -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 text-center space-y-3 hover:shadow-md transition">
+                        <div class="w-14 h-14 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center text-2xl mx-auto">
+                            <i class="fa-solid fa-users-between-lines"></i>
+                        </div>
+                        <h3 class="font-bold text-xl text-slate-800">
+                            <span class="lang-bn">৪. পৃথক শিক্ষক ও শিক্ষিকা</span>
+                            <span class="lang-en">4. Separate Teachers</span>
+                        </h3>
+                        <p class="text-slate-600 text-sm">
+                            <span class="lang-bn">পুরুষ শিক্ষার্থীদের জন্য পুরুষ শিক্ষক এবং নারী শিক্ষার্থীদের জন্য হাফেজা শিক্ষিকা।</span>
+                            <span class="lang-en">Male teachers for male students and female Hafeza teachers for female students.</span>
+                        </p>
+                    </div>
+
+                    <!-- Feature 5 -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 text-center space-y-3 hover:shadow-md transition">
+                        <div class="w-14 h-14 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center text-2xl mx-auto">
+                            <i class="fa-solid fa-people-group"></i>
+                        </div>
+                        <h3 class="font-bold text-xl text-slate-800">
+                            <span class="lang-bn">৫. সকল বয়সের জন্য শিক্ষা</span>
+                            <span class="lang-en">5. For All Ages</span>
+                        </h3>
+                        <p class="text-slate-600 text-sm">
+                            <span class="lang-bn">কুরআন, তাজবিদ, হিফজ, আরবি ভাষা ও প্রয়োজনীয় ইসলামিক বিষয় শেখার সুযোগ।</span>
+                            <span class="lang-en">Opportunities to learn Quran, Tajweed, Hifz, Arabic, and essential Islamic studies.</span>
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- Action Button -->
+                <div class="text-center mt-12">
+                    <a href="javascript:void(0)" onclick="navigateTo('contact')" class="inline-block bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-lg px-8 py-3.5 rounded-xl shadow transition">
+                        <span class="lang-bn">ফ্রি ট্রায়াল ক্লাস বুক করুন <i class="fa-solid fa-arrow-right ml-2"></i></span>
+                        <span class="lang-en">Book a Free Trial Class <i class="fa-solid fa-arrow-right ml-2"></i></span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== 2. ABOUT US SECTION ==================== -->
+        <section id="about" class="page-section hidden py-12 px-4 max-w-5xl mx-auto">
+            <div class="bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-slate-100 space-y-6">
+                <span class="text-emerald-700 font-bold uppercase tracking-wider text-sm">About Us</span>
+                <h2 class="text-3xl font-bold text-slate-800">
+                    <span class="lang-bn">আমাদের সম্পর্কে</span>
+                    <span class="lang-en">About Us</span>
+                </h2>
+                <h3 class="text-2xl font-semibold text-emerald-800 border-l-4 border-amber-400 pl-4">
+                    <span class="lang-bn">জ্ঞান, নৈতিকতা ও দ্বীনি মূল্যবোধে গড়ি আদর্শ প্রজন্ম</span>
+                    <span class="lang-en">Building an ideal generation with knowledge, morality, and Islamic values</span>
+                </h3>
+                <p class="text-slate-600 text-lg leading-relaxed">
+                    <span class="lang-bn">আদ-দ্বীন একাডেমি আল-আযহার বিশ্ববিদ্যালয়ে অধ্যয়নরত শিক্ষার্থীদের উদ্যোগে পরিচালিত একটি আধুনিক অনলাইন কুরআন ও ইসলামিক শিক্ষা প্ল্যাটফর্ম। যোগ্য শিক্ষকমণ্ডলী, ব্যক্তিকেন্দ্রিক পাঠদান ও নিজস্ব কারিকুলামের মাধ্যমে আমরা সকল বয়সের মানুষের কাছে মানসম্মত দ্বীনি শিক্ষা পৌঁছে দিতে এবং শিশুদের মাঝে বিশুদ্ধ জ্ঞান ও উত্তম চরিত্র গড়ে তুলতে প্রতিশ্রুতিবদ্ধ।</span>
+                    <span class="lang-en">Ad-Din Academy is a modern online Quran and Islamic learning platform managed by students studying at Al-Azhar University. Through qualified teachers, personalized instruction, and a unique curriculum, we are committed to delivering quality Islamic education to people of all ages and building pure knowledge and moral character in children.</span>
+                </p>
+            </div>
+        </section>
+
+        <!-- ==================== 3. FOR WHOM SECTION ==================== -->
+        <section id="for-whom" class="page-section hidden py-12 px-4 max-w-5xl mx-auto">
+            <div class="bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-slate-100 space-y-8">
+                <div class="border-b pb-6">
+                    <span class="text-emerald-700 font-bold uppercase tracking-wider text-sm">For Whom</span>
+                    <h2 class="text-3xl font-bold text-slate-800 mt-1">
+                        <span class="lang-bn">যাদের জন্য আমাদের এই একাডেমি</span>
+                        <span class="lang-en">Who Our Academy Is For</span>
+                    </h2>
+                    <p class="text-lg text-emerald-700 font-medium mt-2">
+                        <span class="lang-bn">প্রতিটি বয়সে, প্রতিটি ঘরে দ্বীনি শিক্ষার সুযোগ</span>
+                        <span class="lang-en">Opportunities for Islamic education at every age and in every home</span>
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex items-start space-x-3 p-4 bg-emerald-50 rounded-xl">
+                        <i class="fa-solid fa-circle-check text-emerald-600 text-xl mt-1"></i>
+                        <div>
+                            <strong class="text-slate-800 block text-lg">
+                                <span class="lang-bn">শিশু-কিশোরদের জন্য:</span>
+                                <span class="lang-en">For Children & Teens:</span>
+                            </strong>
+                            <span class="text-slate-600">
+                                <span class="lang-bn">কুরআন, আরবি ভাষা ও ইসলামের মৌলিক শিক্ষা।</span>
+                                <span class="lang-en">Quran, Arabic language, and basic Islamic education.</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3 p-4 bg-emerald-50 rounded-xl">
+                        <i class="fa-solid fa-circle-check text-emerald-600 text-xl mt-1"></i>
+                        <div>
+                            <strong class="text-slate-800 block text-lg">
+                                <span class="lang-bn">প্রবাসী পরিবারের জন্য:</span>
+                                <span class="lang-en">For Expatriate Families:</span>
+                            </strong>
+                            <span class="text-slate-600">
+                                <span class="lang-bn">ঘরে বসে সন্তানদের দ্বীনি শিক্ষা গ্রহণের সুযোগ।</span>
+                                <span class="lang-en">Opportunity for children to learn Islamic studies right from home.</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3 p-4 bg-emerald-50 rounded-xl">
+                        <i class="fa-solid fa-circle-check text-emerald-600 text-xl mt-1"></i>
+                        <div>
+                            <strong class="text-slate-800 block text-lg">
+                                <span class="lang-bn">নতুন শিক্ষার্থীদের জন্য:</span>
+                                <span class="lang-en">For Beginners:</span>
+                            </strong>
+                            <span class="text-slate-600">
+                                <span class="lang-bn">দ্বীনি শিক্ষার প্রাথমিক পাঠ গ্রহণের সুযোগ।</span>
+                                <span class="lang-en">Opportunity to learn foundational lessons in Islamic knowledge.</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3 p-4 bg-emerald-50 rounded-xl">
+                        <i class="fa-solid fa-circle-check text-emerald-600 text-xl mt-1"></i>
+                        <div>
+                            <strong class="text-slate-800 block text-lg">
+                                <span class="lang-bn">প্রাপ্তবয়স্কদের জন্য:</span>
+                                <span class="lang-en">For Adults:</span>
+                            </strong>
+                            <span class="text-slate-600">
+                                <span class="lang-bn">শুদ্ধ কুরআন শিক্ষা ও ইসলামী জ্ঞান অর্জন।</span>
+                                <span class="lang-en">Proper Quran recitation and gaining Islamic knowledge.</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3 p-4 bg-emerald-50 rounded-xl md:col-span-2">
+                        <i class="fa-solid fa-circle-check text-emerald-600 text-xl mt-1"></i>
+                        <div>
+                            <strong class="text-slate-800 block text-lg">
+                                <span class="lang-bn">অভিভাবকদের জন্য:</span>
+                                <span class="lang-en">For Parents:</span>
+                            </strong>
+                            <span class="text-slate-600">
+                                <span class="lang-bn">সন্তানের মানসম্মত দ্বীনি শিক্ষার নির্ভরযোগ্য ব্যবস্থা।</span>
+                                <span class="lang-en">A reliable platform for high-quality Islamic education for your children.</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== 4. HOW IT WORKS SECTION ==================== -->
+        <section id="how-it-works" class="page-section hidden py-12 px-4 max-w-5xl mx-auto">
+            <div class="bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-slate-100 space-y-8">
+                <div>
+                    <span class="text-emerald-700 font-bold uppercase tracking-wider text-sm">How It Works</span>
+                    <h2 class="text-3xl font-bold text-slate-800 mt-1">
+                        <span class="lang-bn">পড়াশোনা শুরু হবে যেভাবে</span>
+                        <span class="lang-en">How Learning Starts</span>
+                    </h2>
+                </div>
+
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 text-center">
-                        <i class="fa-solid fa-user-graduate text-emeraldCustom text-4xl mb-4"></i>
-                        <h3 class="font-bold text-lg mb-2" data-i18n="feat_1_title">১-টু-১ একক ক্লাস</h3>
-                        <p class="text-gray-600 text-sm" data-i18n="feat_1_desc">প্রতিটি শিক্ষার্থীর জন্য একজন ডেডিকেটেড শিক্ষক নির্ধারণ করা হয়।</p>
+                    <div class="border border-slate-200 p-6 rounded-2xl relative bg-slate-50">
+                        <span class="w-10 h-10 bg-amber-400 text-slate-900 font-bold rounded-full flex items-center justify-center text-lg mb-4">1</span>
+                        <h3 class="font-bold text-xl text-slate-800 mb-2">
+                            <span class="lang-bn">ফ্রি ট্রায়াল ক্লাস</span>
+                            <span class="lang-en">Free Trial Class</span>
+                        </h3>
+                        <p class="text-slate-600">
+                            <span class="lang-bn">বিনামূল্যে ট্রায়াল ক্লাস করুন। ভালো লাগলে ভর্তি প্রক্রিয়া সম্পন্ন করুন।</span>
+                            <span class="lang-en">Take a free trial class. Complete enrollment if satisfied.</span>
+                        </p>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 text-center">
-                        <i class="fa-solid fa-clock text-emeraldCustom text-4xl mb-4"></i>
-                        <h3 class="font-bold text-lg mb-2" data-i18n="feat_2_title">নমনীয় সময়সূচী</h3>
-                        <p class="text-gray-600 text-sm" data-i18n="feat_2_desc">আপনার সুবিধাজনক সময়ে ২৪/৭ ক্লাস করার ব্যবস্থা।</p>
+
+                    <div class="border border-slate-200 p-6 rounded-2xl relative bg-slate-50">
+                        <span class="w-10 h-10 bg-amber-400 text-slate-900 font-bold rounded-full flex items-center justify-center text-lg mb-4">2</span>
+                        <h3 class="font-bold text-xl text-slate-800 mb-2">
+                            <span class="lang-bn">ওয়ান-টু-ওয়ান লাইভ ক্লাস</span>
+                            <span class="lang-en">One-to-One Live Class</span>
+                        </h3>
+                        <p class="text-slate-600">
+                            <span class="lang-bn">Google Meet/WhatsApp-এ একজন শিক্ষার্থীর সঙ্গে একজন শিক্ষকের সরাসরি ক্লাস।</span>
+                            <span class="lang-en">Direct live class with one teacher per student on Google Meet/WhatsApp.</span>
+                        </p>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 text-center">
-                        <i class="fa-solid fa-venus-mars text-emeraldCustom text-4xl mb-4"></i>
-                        <h3 class="font-bold text-lg mb-2" data-i18n="feat_3_title">নারী ও পুরুষ শিক্ষক</h3>
-                        <p class="text-gray-600 text-sm" data-i18n="feat_3_desc">বোনেদের জন্য অভিজ্ঞ শিক্ষিকা এবং ভাইদের জন্য শিক্ষক।</p>
+
+                    <div class="border border-slate-200 p-6 rounded-2xl relative bg-slate-50">
+                        <span class="w-10 h-10 bg-amber-400 text-slate-900 font-bold rounded-full flex items-center justify-center text-lg mb-4">3</span>
+                        <h3 class="font-bold text-xl text-slate-800 mb-2">
+                            <span class="lang-bn">নিজের সুবিধামতো সময়</span>
+                            <span class="lang-en">Flexible Schedule</span>
+                        </h3>
+                        <p class="text-slate-600">
+                            <span class="lang-bn">আপনার সুবিধা অনুযায়ী সময় নির্ধারণ করে ক্লাসে অংশ নিন।</span>
+                            <span class="lang-en">Schedule classes according to your convenience from anywhere.</span>
+                        </p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 2. COURSES PAGE -->
-        <section id="courses" class="page-section">
-            <div class="max-w-7xl mx-auto px-4 py-12">
-                <h2 class="text-3xl font-bold text-center mb-8" data-i18n="courses_title">কোর্স ও ফি বিবরণী</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <!-- Course 1 -->
-                    <div class="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
-                        <div class="bg-emeraldCustom text-white p-4 text-center">
-                            <h3 class="font-bold text-xl" data-i18n="c1_title">কায়দা ও নূরানী কুরআন</h3>
-                        </div>
-                        <div class="p-6 text-center">
-                            <p class="text-gray-600 text-sm mb-4" data-i18n="c1_desc">শিশু ও নতুনদের জন্য কুরআন রিডিং শেখার প্রথম ধাপ।</p>
-                            <p class="text-2xl font-bold text-emeraldCustom mb-4" data-i18n="c1_fee">৳১,৫০০ / মাস</p>
-                            <button onclick="switchPage('contact')" class="w-full bg-emeraldCustom text-white py-2 rounded font-semibold hover:bg-emerald-700 transition" data-i18n="btn_enroll">ভর্তি হন</button>
+        <!-- ==================== 5. COURSES SECTION ==================== -->
+        <section id="courses" class="page-section hidden py-12 px-4 max-w-6xl mx-auto">
+            <div class="text-center space-y-3 mb-10">
+                <span class="text-emerald-700 font-bold uppercase tracking-wider text-sm">Our Courses</span>
+                <h2 class="text-3xl font-bold text-slate-800">
+                    <span class="lang-bn">আমাদের কোর্সসমূহ</span>
+                    <span class="lang-en">Our Courses</span>
+                </h2>
+                <p class="text-slate-600 max-w-2xl mx-auto">
+                    <span class="lang-bn">কুরআন শিক্ষা থেকে আরবি ভাষা ও ইসলামী জ্ঞান—শিক্ষার্থীর বয়স ও প্রয়োজন অনুযায়ী সাজানো আমাদের কোর্সসমূহ।</span>
+                    <span class="lang-en">From Quranic studies to Arabic language and Islamic knowledge—our courses are tailored to student age and needs.</span>
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Course 1 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="text-amber-500 text-2xl mb-3"><i class="fa-solid fa-book-open-reader"></i></div>
+                        <h3 class="font-bold text-xl text-slate-800 mb-2">
+                            <span class="lang-bn">১. তাজবিদসহ কুরআন তিলাওয়াত</span>
+                            <span class="lang-en">1. Quran Recitation with Tajweed</span>
+                        </h3>
+                        <p class="text-slate-600 text-sm">
+                            <span class="lang-bn">কায়দা ও আমপাড়া থেকে শুদ্ধ উচ্চারণে কুরআন শেখা।</span>
+                            <span class="lang-en">Learn accurate Quran recitation starting from Qaida and Ampara.</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Course 2 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="text-amber-500 text-2xl mb-3"><i class="fa-solid fa-brain"></i></div>
+                        <h3 class="font-bold text-xl text-slate-800 mb-2">
+                            <span class="lang-bn">২. নাজেরা ও হিফজুল কুরআন</span>
+                            <span class="lang-en">2. Nazera & Hifzul Quran</span>
+                        </h3>
+                        <p class="text-slate-600 text-sm">
+                            <span class="lang-bn">শুদ্ধভাবে কুরআন তিলাওয়াত ও মুখস্থ করার প্রশিক্ষণ।</span>
+                            <span class="lang-en">Training in fluent Quran reading and memorization.</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Course 3 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="text-amber-500 text-2xl mb-3"><i class="fa-solid fa-hands-praying"></i></div>
+                        <h3 class="font-bold text-xl text-slate-800 mb-2">
+                            <span class="lang-bn">৩. মাসনুন দোয়া ও ছোট হাদিস</span>
+                            <span class="lang-en">3. Masnoon Dua & Short Hadith</span>
+                        </h3>
+                        <p class="text-slate-600 text-sm">
+                            <span class="lang-bn">দৈনন্দিন প্রয়োজনীয় দোয়া, ছোট হাদিস ও ইসলামী আদব-আখলাক শিক্ষা।</span>
+                            <span class="lang-en">Learning daily supplications, short Hadiths, and Islamic manners.</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Course 4 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="text-amber-500 text-2xl mb-3"><i class="fa-solid fa-mosque"></i></div>
+                        <h3 class="font-bold text-xl text-slate-800 mb-2">
+                            <span class="lang-bn">৪. নামাজ ও প্রয়োজনীয় মাসআলা</span>
+                            <span class="lang-en">4. Salah & Essential Masail</span>
+                        </h3>
+                        <p class="text-slate-600 text-sm">
+                            <span class="lang-bn">শুদ্ধভাবে নামাজ আদায় এবং দৈনন্দিন জীবনের জরুরি মাসআলা শিক্ষা।</span>
+                            <span class="lang-en">Learning proper prayer methods and essential daily Islamic rules.</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Course 5 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="text-amber-500 text-2xl mb-3"><i class="fa-solid fa-language"></i></div>
+                        <h3 class="font-bold text-xl text-slate-800 mb-2">
+                            <span class="lang-bn">৫. সহজ পদ্ধতিতে আরবি ভাষা</span>
+                            <span class="lang-en">5. Arabic Language & Studies</span>
+                        </h3>
+                        <p class="text-slate-600 text-sm">
+                            <span class="lang-bn">আরবি ভাষার মৌলিক দক্ষতা অর্জন এবং প্রয়োজনীয় ইসলামী জ্ঞান চর্চা।</span>
+                            <span class="lang-en">Gaining basic Arabic language skills and practicing Islamic knowledge.</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Course 6 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border-2 border-emerald-500 flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="text-emerald-600 text-2xl mb-3"><i class="fa-solid fa-graduation-cap"></i></div>
+                        <h3 class="font-bold text-xl text-slate-800 mb-2">
+                            <span class="lang-bn">৬. শিশুদের সমন্বিত শরিয়াহ কোর্স</span>
+                            <span class="lang-en">6. Integrated Shariah for Kids</span>
+                        </h3>
+                        <p class="text-slate-600 text-sm">
+                            <span class="lang-bn">আল-আজহার বিশ্ববিদ্যালয়ের ধাঁচে ১ বছর মেয়াদি ৪ সেমিস্টারের কোর্স।</span>
+                            <span class="lang-en">A 1-year 4-semester integrated course based on Al-Azhar methodology.</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== 6. TEACHERS SECTION ==================== -->
+        <section id="teachers" class="page-section hidden py-12 px-4 max-w-5xl mx-auto">
+            <div class="bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-slate-100 space-y-6 text-center">
+                <span class="text-emerald-700 font-bold uppercase tracking-wider text-sm">Our Teachers</span>
+                <h2 class="text-3xl font-bold text-slate-800">
+                    <span class="lang-bn">আমাদের শিক্ষকবৃন্দ</span>
+                    <span class="lang-en">Our Teachers</span>
+                </h2>
+                <p class="text-slate-600 text-lg leading-relaxed max-w-3xl mx-auto">
+                    <span class="lang-bn">আদ-দ্বীন একাডেমিতে রয়েছেন আল-আজহার বিশ্ববিদ্যালয়সহ বিভিন্ন স্বনামধন্য প্রতিষ্ঠানে অধ্যয়নরত যোগ্য শিক্ষকবৃন্দ এবং অভিজ্ঞ মহিলা হাফেজা শিক্ষিকা। শিক্ষার্থীদের বয়স ও প্রয়োজন অনুযায়ী তাঁরা আন্তরিকতা, ধৈর্য ও যত্নের সঙ্গে কুরআন, আরবি ভাষা ও ইসলামী শিক্ষা প্রদান করেন।</span>
+                    <span class="lang-en">Ad-Din Academy features qualified male teachers studying at Al-Azhar University and reputable institutions, along with experienced female Hafeza teachers. They teach Quran, Arabic, and Islamic studies with patience, sincerity, and personal care.</span>
+                </p>
+            </div>
+        </section>
+
+        <!-- ==================== 7. WHY CHOOSE US SECTION ==================== -->
+        <section id="why-us" class="page-section hidden py-12 px-4 max-w-5xl mx-auto">
+            <div class="bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-slate-100 space-y-8">
+                <div>
+                    <span class="text-emerald-700 font-bold uppercase tracking-wider text-sm">Why Choose Us</span>
+                    <h2 class="text-3xl font-bold text-slate-800 mt-1">
+                        <span class="lang-bn">কেন বেছে নেবেন আদ-দ্বীন একাডেমি?</span>
+                        <span class="lang-en">Why Choose Ad-Din Academy?</span>
+                    </h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-4 border border-slate-100 rounded-xl bg-slate-50 flex items-start space-x-3">
+                        <i class="fa-solid fa-star text-amber-500 mt-1"></i>
+                        <div>
+                            <strong class="text-slate-800">
+                                <span class="lang-bn">যোগ্য শিক্ষকবৃন্দ:</span><span class="lang-en">Qualified Faculty:</span>
+                            </strong>
+                            <p class="text-slate-600 text-sm">
+                                <span class="lang-bn">আল-আজহার বিশ্ববিদ্যালয়সহ স্বনামধন্য প্রতিষ্ঠানে অধ্যয়নরত আলেমদের দ্বারা পাঠদান।</span>
+                                <span class="lang-en">Taught by scholars studying at Al-Azhar and renowned universities.</span>
+                            </p>
                         </div>
                     </div>
-                    <!-- Course 2 -->
-                    <div class="bg-white rounded-lg border border-goldCustom overflow-hidden shadow-md relative">
-                        <span class="bg-goldCustom text-white text-xs px-2 py-1 absolute top-2 right-2 rounded font-bold" data-i18n="badge_popular">জনপ্রিয়</span>
-                        <div class="bg-emeraldCustom text-white p-4 text-center">
-                            <h3 class="font-bold text-xl" data-i18n="c2_title">সহীহ তাজবীদ ও তিলাওয়াত</h3>
-                        </div>
-                        <div class="p-6 text-center">
-                            <p class="text-gray-600 text-sm mb-4" data-i18n="c2_desc">শুদ্ধভাবে সুন্দর কন্ঠে তিলাওয়াত শেখার কোর্স।</p>
-                            <p class="text-2xl font-bold text-emeraldCustom mb-4" data-i18n="c2_fee">৳২,০০০ / মাস</p>
-                            <button onclick="switchPage('contact')" class="w-full bg-goldCustom text-white py-2 rounded font-semibold hover:bg-amber-600 transition" data-i18n="btn_enroll">ভর্তি হন</button>
+
+                    <div class="p-4 border border-slate-100 rounded-xl bg-slate-50 flex items-start space-x-3">
+                        <i class="fa-solid fa-star text-amber-500 mt-1"></i>
+                        <div>
+                            <strong class="text-slate-800">
+                                <span class="lang-bn">ওয়ান-টু-ওয়ান ক্লাস:</span><span class="lang-en">One-to-One Class:</span>
+                            </strong>
+                            <p class="text-slate-600 text-sm">
+                                <span class="lang-bn">প্রত্যেক শিক্ষার্থীর জন্য ব্যক্তিগত মনোযোগ ও যত্নসহকারে পাঠদানের ব্যবস্থা।</span>
+                                <span class="lang-en">Personalized care and focused teaching for every single student.</span>
+                            </p>
                         </div>
                     </div>
-                    <!-- Course 3 -->
-                    <div class="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
-                        <div class="bg-emeraldCustom text-white p-4 text-center">
-                            <h3 class="font-bold text-xl" data-i18n="c3_title">হেফজুল কুরআন (হিফজ)</h3>
+
+                    <div class="p-4 border border-slate-100 rounded-xl bg-slate-50 flex items-start space-x-3">
+                        <i class="fa-solid fa-star text-amber-500 mt-1"></i>
+                        <div>
+                            <strong class="text-slate-800">
+                                <span class="lang-bn">সুবিধামতো সময়:</span><span class="lang-en">Flexible Timing:</span>
+                            </strong>
+                            <p class="text-slate-600 text-sm">
+                                <span class="lang-bn">শিক্ষার্থীর সুবিধা ও রুটিন অনুযায়ী ক্লাসের সময় নির্ধারণের সুযোগ।</span>
+                                <span class="lang-en">Option to set class schedules according to student routine.</span>
+                            </p>
                         </div>
-                        <div class="p-6 text-center">
-                            <p class="text-gray-600 text-sm mb-4" data-i18n="c3_desc">সম্পূর্ণ কুরআন হিফজ ও রিভিশন প্রোগ্রাম।</p>
-                            <p class="text-2xl font-bold text-emeraldCustom mb-4" data-i18n="c3_fee">৳৩,০০০ / মাস</p>
-                            <button onclick="switchPage('contact')" class="w-full bg-emeraldCustom text-white py-2 rounded font-semibold hover:bg-emerald-700 transition" data-i18n="btn_enroll">ভর্তি হন</button>
+                    </div>
+
+                    <div class="p-4 border border-slate-100 rounded-xl bg-slate-50 flex items-start space-x-3">
+                        <i class="fa-solid fa-star text-amber-500 mt-1"></i>
+                        <div>
+                            <strong class="text-slate-800">
+                                <span class="lang-bn">ইন্টারেক্টিভ লার্নিং:</span><span class="lang-en">Interactive Learning:</span>
+                            </strong>
+                            <p class="text-slate-600 text-sm">
+                                <span class="lang-bn">Google Meet ও স্ক্রিন শেয়ারের মাধ্যমে কার্যকর পাঠদান।</span>
+                                <span class="lang-en">Effective teaching using Google Meet and screen sharing.</span>
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 3. ABOUT US PAGE -->
-        <section id="about" class="page-section">
-            <div class="max-w-4xl mx-auto px-4 py-12">
-                <h2 class="text-3xl font-bold text-center mb-6" data-i18n="about_title">আমাদের সম্পর্কে</h2>
-                <div class="bg-white p-8 rounded-lg shadow-sm border border-gray-200 text-gray-700 leading-relaxed">
-                    <p class="mb-4" data-i18n="about_p1">আমাদের অনলাইন কুরআন শিক্ষা মাদরাসা বিশ্বজুড়ে মুসলিম ভাই-বোনদের জন্য সঠিক ও সহীহ উপায়ে কুরআন শিক্ষার একটি নির্ভরযোগ্য বিশ্বস্ত প্রতিষ্ঠান।</p>
-                    <p data-i18n="about_p2">আমাদের রয়েছে একঝাঁক অভিজ্ঞ হাফেজ, ক্বারী ও আলিম শিক্ষক-শিক্ষিকা। আমরা শিশুদের মানসিক বিকাশ ও বয়স্কদের ব্যস্ততার কথা মাথায় রেখে ১-টু-১ লাইভ ক্লাসের ব্যবস্থা করে থাকি।</p>
+        <!-- ==================== 8. CONTACT US SECTION ==================== -->
+        <section id="contact" class="page-section hidden py-12 px-4 max-w-4xl mx-auto">
+            <div class="bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-slate-100 space-y-8">
+                <div class="text-center space-y-2">
+                    <span class="text-emerald-700 font-bold uppercase tracking-wider text-sm">Contact Us</span>
+                    <h2 class="text-3xl font-bold text-slate-800">
+                        <span class="lang-bn">যোগাযোগ করুন</span>
+                        <span class="lang-en">Contact Us</span>
+                    </h2>
+                    <p class="text-slate-600">
+                        <span class="lang-bn">ভর্তি সংক্রান্ত তথ্য জানতে অথবা বিনামূল্যে ফ্রি ট্রায়াল ক্লাস বুক করতে আমাদের সঙ্গে যোগাযোগ করুন।</span>
+                        <span class="lang-en">Contact us for admission inquiries or to book a free trial class.</span>
+                    </p>
                 </div>
-            </div>
-        </section>
 
-        <!-- 4. CONTACT & FREE TRIAL PAGE -->
-        <section id="contact" class="page-section">
-            <div class="max-w-2xl mx-auto px-4 py-12">
-                <h2 class="text-3xl font-bold text-center mb-2" data-i18n="contact_title">ফ্রি ট্রায়াল বুকিং ও যোগাযোগ</h2>
-                <p class="text-center text-gray-600 mb-8" data-i18n="contact_subtitle">ফর্মটি পূরণ করুন, আমরা দ্রুত আপনার সাথে হোয়াটসঅ্যাপে যোগাযোগ করব।</p>
-                
-                <form onsubmit="handleTrialSubmit(event)" class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 space-y-4">
-                    <div>
-                        <label class="block text-sm font-semibold mb-1" data-i18n="form_name">আপনার নাম</label>
-                        <input type="text" id="studentName" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-emeraldCustom">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+                    <div class="p-6 bg-slate-50 rounded-2xl text-center space-y-3">
+                        <div class="text-emerald-600 text-3xl"><i class="fa-brands fa-whatsapp"></i></div>
+                        <h3 class="font-bold text-slate-800">
+                            <span class="lang-bn">হোয়াটসঅ্যাপ / ফোন</span>
+                            <span class="lang-en">WhatsApp / Phone</span>
+                        </h3>
+                        <p class="text-sm text-slate-600">+201278837517<br>+8801793116631</p>
                     </div>
-                    <div>
-                        <label class="block text-sm font-semibold mb-1" data-i18n="form_whatsapp">হোয়াটসঅ্যাপ নম্বর</label>
-                        <input type="tel" id="studentPhone" required placeholder="+88017..." class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-emeraldCustom">
+
+                    <div class="p-6 bg-slate-50 rounded-2xl text-center space-y-3">
+                        <div class="text-emerald-600 text-3xl"><i class="fa-regular fa-envelope"></i></div>
+                        <h3 class="font-bold text-slate-800">
+                            <span class="lang-bn">ইমেইল</span>
+                            <span class="lang-en">Email</span>
+                        </h3>
+                        <p class="text-sm text-slate-600">info@addinacademy.com</p>
                     </div>
-                    <div>
-                        <label class="block text-sm font-semibold mb-1" data-i18n="form_course">পছন্দের কোর্স</label>
-                        <select id="studentCourse" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-emeraldCustom">
-                            <option value="Qaida & Noorani">Qaida & Noorani / কায়দা ও নূরানী</option>
-                            <option value="Tajweed & Recitation">Tajweed / তাজবীদ ও তিলাওয়াত</option>
-                            <option value="Hifz Program">Hifz / হেফজুল কুরআন</option>
-                        </select>
+
+                    <div class="p-6 bg-slate-50 rounded-2xl text-center space-y-3">
+                        <div class="text-emerald-600 text-3xl"><i class="fa-brands fa-facebook"></i></div>
+                        <h3 class="font-bold text-slate-800">
+                            <span class="lang-bn">ফেসবুক পেজ</span>
+                            <span class="lang-en">Facebook Page</span>
+                        </h3>
+                        <a href="#" target="_blank" class="text-sm text-emerald-700 underline">
+                            <span class="lang-bn">আমাদের ফেসবুক পেজ</span>
+                            <span class="lang-en">Our Facebook Page</span>
+                        </a>
                     </div>
-                    <button type="submit" class="w-full bg-goldCustom text-white font-bold py-3 rounded hover:bg-amber-600 transition" data-i18n="form_submit">
-                        হোয়াটসঅ্যাপে বুকিং মেসেজ পাঠান
-                    </button>
-                </form>
+                </div>
             </div>
         </section>
 
     </main>
 
     <!-- Footer -->
-    <footer class="bg-emerald-950 text-emerald-100 py-6 text-center text-sm border-t border-emerald-800">
-        <p data-i18n="footer_text">© ২০২৬ অনলাইন কুরআন শিক্ষা মাদরাসা। সর্বস্বত্ব সংরক্ষিত।</p>
+    <footer class="bg-slate-900 text-slate-400 py-8 px-4 text-center text-sm border-t border-slate-800">
+        <div class="max-w-7xl mx-auto space-y-2">
+            <p>&copy; ২০২৬ আদ-দ্বীন একাডেমি। সর্বস্বত্ব সংরক্ষিত।</p>
+        </div>
     </footer>
 
-    <!-- JavaScript for SPA and Language Switching -->
+    <!-- JavaScript -->
     <script>
-        // WhatsApp Configuration (এখানে আপনার নম্বর সেট করুন)
-        const WHATSAPP_NUMBER = "8801700000000"; 
-
-        // Language Dictionary
-        const translations = {
-            bn: {
-                nav_home: "হোম",
-                nav_courses: "কোর্স ও ফি",
-                nav_about: "আমাদের সম্পর্কে",
-                nav_contact: "যোগাযোগ",
-                btn_free_trial: "ফ্রি ট্রায়াল",
-                hero_title: "ঘরে বসেই শিখুন সহীহ কুরআন তিলাওয়াত",
-                hero_subtitle: "অভিজ্ঞ হাফেজ ও আলেম শিক্ষক দ্বারা পরিচালিত ১-টু-১ অনলাইন কুরআন শিক্ষা প্ল্যাটফর্ম।",
-                btn_start_today: "আজই ফ্রি ট্রায়াল বুক করুন",
-                why_choose_us: "কেন আমাদের বেছে নেবেন?",
-                feat_1_title: "১-টু-১ একক ক্লাস",
-                feat_1_desc: "প্রতিটি শিক্ষার্থীর জন্য একজন ডেডিকেটেড শিক্ষক নির্ধারণ করা হয়।",
-                feat_2_title: "নমনীয় সময়সূচী",
-                feat_2_desc: "আপনার সুবিধাজনক সময়ে ২৪/৭ ক্লাস করার ব্যবস্থা।",
-                feat_3_title: "নারী ও পুরুষ শিক্ষক",
-                feat_3_desc: "বোনেদের জন্য অভিজ্ঞ শিক্ষিকা এবং ভাইদের জন্য শিক্ষক।",
-                courses_title: "কোর্স ও ফি বিবরণী",
-                c1_title: "কায়দা ও নূরানী কুরআন",
-                c1_desc: "শিশু ও নতুনদের জন্য কুরআন রিডিং শেখার প্রথম ধাপ।",
-                c1_fee: "৳১,৫০০ / মাস",
-                c2_title: "সহীহ তাজবীদ ও তিলাওয়াত",
-                c2_desc: "শুদ্ধভাবে সুন্দর কন্ঠে তিলাওয়াত শেখার কোর্স।",
-                c2_fee: "৳২,০০০ / মাস",
-                c3_title: "হেফজুল কুরআন (হিফজ)",
-                c3_desc: "সম্পূর্ণ কুরআন হিফজ ও রিভিশন প্রোগ্রাম।",
-                c3_fee: "৳৩,০০০ / মাস",
-                badge_popular: "জনপ্রিয়",
-                btn_enroll: "ভর্তি হন",
-                about_title: "আমাদের সম্পর্কে",
-                about_p1: "আমাদের অনলাইন কুরআন শিক্ষা মাদরাসা বিশ্বজুড়ে মুসলিম ভাই-বোনদের জন্য সঠিক ও সহীহ উপায়ে কুরআন শিক্ষার একটি নির্ভরযোগ্য বিশ্বস্ত প্রতিষ্ঠান।",
-                about_p2: "আমাদের রয়েছে একঝাঁক অভিজ্ঞ হাফেজ, ক্বারী ও আলিম শিক্ষক-শিক্ষিকা। আমরা শিশুদের মানসিক বিকাশ ও বয়স্কদের ব্যস্ততার কথা মাথায় রেখে ১-টু-১ লাইভ ক্লাসের ব্যবস্থা করে থাকি।",
-                contact_title: "ফ্রি ট্রায়াল বুকিং ও যোগাযোগ",
-                contact_subtitle: "ফর্মটি পূরণ করুন, আমরা দ্রুত আপনার সাথে হোয়াটসঅ্যাপে যোগাযোগ করব।",
-                form_name: "আপনার নাম",
-                form_whatsapp: "হোয়াটসঅ্যাপ নম্বর",
-                form_course: "পছন্দের কোর্স",
-                form_submit: "হোয়াটসঅ্যাপে বুকিং মেসেজ পাঠান",
-                footer_text: "© ২০২৬ অনলাইন কুরআন শিক্ষা মাদরাসা। সর্বস্বত্ব সংরক্ষিত।"
-            },
-            en: {
-                nav_home: "Home",
-                nav_courses: "Courses & Fees",
-                nav_about: "About Us",
-                nav_contact: "Contact",
-                btn_free_trial: "Free Trial",
-                hero_title: "Learn Quran Online From Home",
-                hero_subtitle: "1-on-1 Online Quran Learning Platform Guided by Experienced Teachers.",
-                btn_start_today: "Book a Free Trial Today",
-                why_choose_us: "Why Choose Us?",
-                feat_1_title: "1-on-1 Live Classes",
-                feat_1_desc: "Dedicated teacher assigned for every individual student.",
-                feat_2_title: "Flexible Timing",
-                feat_2_desc: "Schedule classes at your preferred time, 24/7.",
-                feat_3_title: "Male & Female Tutors",
-                feat_3_desc: "Experienced female tutors for sisters and male tutors for brothers.",
-                courses_title: "Courses & Fee Structure",
-                c1_title: "Qaida & Quran Reading",
-                c1_desc: "The first step to learning Quran reading for kids & beginners.",
-                c1_fee: "$25 / Month",
-                c2_title: "Tajweed & Recitation",
-                c2_desc: "Master correct Quranic pronunciation and tajweed rules.",
-                c2_fee: "$35 / Month",
-                c3_title: "Hifz Quran Program",
-                c3_desc: "Complete Quran memorization and revision program.",
-                c3_fee: "$50 / Month",
-                badge_popular: "Popular",
-                btn_enroll: "Enroll Now",
-                about_title: "About Us",
-                about_p1: "Our Online Quran Academy is a trusted platform for Muslims worldwide to learn Quran correctly with Tajweed.",
-                about_p2: "We have qualified Hafiz, Qari, and Islamic scholars. We offer personalized 1-on-1 classes keeping flexibility and convenience in mind.",
-                contact_title: "Free Trial Booking & Contact",
-                contact_subtitle: "Fill out the form and we will get back to you on WhatsApp quickly.",
-                form_name: "Your Name",
-                form_whatsapp: "WhatsApp Number",
-                form_course: "Preferred Course",
-                form_submit: "Send Booking via WhatsApp",
-                footer_text: "© 2026 Online Quran Academy. All Rights Reserved."
-            }
-        };
-
-        let currentLang = 'bn';
-
-        // Page Switcher Function
-        function switchPage(pageId) {
-            document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // Language Toggle Function
+        // Language Switch Logic
         function toggleLanguage() {
-            currentLang = currentLang === 'bn' ? 'en' : 'bn';
-            document.getElementById('langBtnText').innerText = currentLang === 'bn' ? 'EN' : 'BN';
+            const body = document.body;
+            const langBtn = document.getElementById('lang-btn');
             
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (translations[currentLang][key]) {
-                    el.innerText = translations[currentLang][key];
-                }
+            body.classList.toggle('en-mode');
+            
+            if (body.classList.contains('en-mode')) {
+                langBtn.textContent = 'বাংলা';
+            } else {
+                langBtn.textContent = 'English';
+            }
+        }
+
+        // Page Navigation Logic
+        function navigateTo(pageId) {
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(section => {
+                section.classList.add('hidden');
             });
+
+            const targetSection = document.getElementById(pageId);
+            if (targetSection) {
+                targetSection.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            const navMenu = document.getElementById('nav-menu');
+            if (!navMenu.classList.contains('hidden')) {
+                navMenu.classList.add('hidden');
+            }
         }
 
-        // WhatsApp Direct Booking Handler
-        function handleTrialSubmit(e) {
-            e.preventDefault();
-            const name = document.getElementById('studentName').value;
-            const phone = document.getElementById('studentPhone').value;
-            const course = document.getElementById('studentCourse').value;
-
-            const text = `Assalamu Alaikum,\nI want to book a Free Trial Class.\n*Name:* ${name}\n*Phone:* ${phone}\n*Course:* ${course}`;
-            const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
-            window.open(url, '_blank');
-        }
+        // Mobile Menu Toggle
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            document.getElementById('nav-menu').classList.toggle('hidden');
+        });
     </script>
 </body>
 </html>
